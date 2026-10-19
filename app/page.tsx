@@ -1,8 +1,10 @@
 import Image from "next/image";
 import { ButtonLink } from "@/components/button-link";
+import { FeaturedLine } from "@/components/featured-line";
 import { ProductCard } from "@/components/product-card";
+import { StoreStatus } from "@/components/store-status";
 import { WhatsAppIcon } from "@/components/whatsapp-icon";
-import { catalog } from "@/lib/catalog";
+import { catalog, featuredItems } from "@/lib/catalog";
 import {
   formattedAddress,
   instagramHandle,
@@ -15,18 +17,18 @@ import {
 
 export const metadata = pageMetadata({ path: "/" });
 
-const highlights = [
+const steps = [
   {
-    title: "En tienda",
-    text: "Carrera 30A #3A-49, Florencia de la Italia, Palmira.",
+    title: "Elige",
+    text: "Mira la colección o cuéntanos qué prenda estás buscando.",
   },
   {
-    title: "Por WhatsApp",
-    text: "Pregunta por una prenda, la talla o el precio y te respondemos por el chat.",
+    title: "Escribe",
+    text: "Por WhatsApp te confirmamos qué hay, la talla y el precio.",
   },
   {
-    title: "En Instagram",
-    text: "Las novedades también se publican en el perfil de la boutique.",
+    title: "Pasa por la tienda",
+    text: "Te la pruebas en Florencia de la Italia y te la llevas.",
   },
 ];
 
@@ -35,9 +37,9 @@ export default function Home() {
     <main>
       <section id="inicio">
         <div className="mx-auto grid w-full max-w-6xl items-center gap-12 px-5 py-14 sm:px-8 sm:py-20 lg:grid-cols-[1.15fr_0.85fr] lg:gap-16 lg:py-24">
-          <div>
+          <div className="enter">
             <p className="flex items-center gap-3 text-xs font-medium uppercase tracking-[0.28em]">
-              <span className="h-px w-8 bg-gold" aria-hidden="true" />
+              <span className="line-load h-px w-8 bg-gold" aria-hidden="true" />
               Palmira, Valle del Cauca
             </p>
             <h1 className="mt-6 font-serif text-6xl leading-[0.9] font-medium tracking-tight sm:text-7xl lg:text-8xl">
@@ -48,8 +50,9 @@ export default function Home() {
               Ropa para dama en Palmira
             </p>
             <p className="mt-6 max-w-md text-base leading-7 text-ink/80 sm:text-lg sm:leading-8">
-              La tienda está en Florencia de la Italia. Pasa a conocer las
-              novedades o escríbenos por WhatsApp y te ayudamos a elegir.
+              Piezas de diario, fáciles de combinar. Estamos en Florencia de la
+              Italia: pasa a verlas o escríbenos y te ayudamos a elegir talla y
+              precio.
             </p>
             <div className="mt-8 flex flex-col gap-3 sm:flex-row">
               <ButtonLink href={whatsappUrl()} external>
@@ -61,7 +64,7 @@ export default function Home() {
               </ButtonLink>
             </div>
           </div>
-          <div className="flex justify-center lg:justify-end">
+          <div className="enter enter-late flex justify-center lg:justify-end">
             <Image
               src={site.logo}
               alt="Logo de Boutique Juliana"
@@ -77,7 +80,7 @@ export default function Home() {
       </section>
 
       <section className="bg-ink text-cream" aria-label="Datos de la tienda">
-        <dl className="mx-auto grid w-full max-w-6xl gap-8 px-5 py-12 sm:px-8 md:grid-cols-3 md:py-14">
+        <dl className="reveal mx-auto grid w-full max-w-6xl gap-8 px-5 py-12 sm:px-8 md:grid-cols-3 md:py-14">
           <div>
             <dt className="text-xs font-medium uppercase tracking-[0.28em] text-gold">
               Dónde
@@ -96,7 +99,9 @@ export default function Home() {
             <dd className="mt-3 font-serif text-3xl leading-tight">
               {site.hours.map((group) => group.label).join(" · ")}
             </dd>
-            <dd className="mt-2 text-sm text-cream/70">{site.closedLabel}</dd>
+            <dd className="mt-2">
+              <StoreStatus />
+            </dd>
           </div>
           <div>
             <dt className="text-xs font-medium uppercase tracking-[0.28em] text-gold">
@@ -119,7 +124,7 @@ export default function Home() {
 
       <section id="coleccion">
         <div className="mx-auto w-full max-w-6xl px-5 py-16 sm:px-8 sm:py-24">
-          <div className="flex flex-col justify-between gap-6 md:flex-row md:items-end">
+          <div className="reveal flex flex-col justify-between gap-6 md:flex-row md:items-end">
             <div>
               <SectionLabel>01 — Colección</SectionLabel>
               <h2 className="mt-4 font-serif text-5xl font-medium tracking-tight sm:text-6xl">
@@ -131,31 +136,51 @@ export default function Home() {
               Escríbenos y te contamos qué hay en tienda, las tallas y el precio.
             </p>
           </div>
-          <ul className="mt-12 grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-3">
+          <div className="mt-12">
+            <h3 className="font-serif text-3xl font-medium sm:text-4xl">Novedades</h3>
+            <p className="mt-3 max-w-md text-sm leading-6 text-ink/75">
+              Vestidos, jeans, conjuntos y casual. Escríbenos y te decimos qué
+              hay hoy en tienda.
+            </p>
+            <ul className="reveal-stagger mt-6 grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4">
+              {featuredItems().map((item, index) => (
+                <li key={item.slug}>
+                  <FeaturedLine item={item} index={index} />
+                </li>
+              ))}
+            </ul>
+          </div>
+          <h3 className="reveal mt-16 font-serif text-3xl font-medium sm:text-4xl">
+            Todas las líneas
+          </h3>
+          <ul className="reveal-stagger mt-8 grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-3">
             {catalog.map((item, index) => (
               <li key={item.slug}>
                 <ProductCard item={item} index={index} />
               </li>
             ))}
           </ul>
+          <p className="reveal mt-10 border border-gold/40 px-5 py-4 text-sm leading-6 text-ink/75">
+            Cada prenda tiene su talla. Disponibilidad, precio y cambios se
+            confirman por WhatsApp o directamente en la tienda.
+          </p>
         </div>
       </section>
 
       <section id="boutique" className="border-t border-gold/30">
         <div className="mx-auto grid w-full max-w-6xl gap-12 px-5 py-16 sm:px-8 sm:py-24 lg:grid-cols-2 lg:gap-20">
-          <div>
+          <div className="reveal">
             <SectionLabel>02 — La boutique</SectionLabel>
             <h2 className="mt-4 font-serif text-5xl font-medium tracking-tight sm:text-6xl">
-              Tu boutique en Palmira
+              De la página a la tienda
             </h2>
             <p className="mt-6 max-w-md text-base leading-7 text-ink/80 sm:text-lg sm:leading-8">
-              Boutique Juliana es una tienda de ropa para dama en Florencia de
-              la Italia. Puedes pasar a ver las novedades o escribir por
-              WhatsApp para que te ayuden a escoger.
+              Boutique Juliana es ropa para dama en Palmira. Puedes ver las
+              piezas en el local o escribirnos para que te ayudemos a escoger.
             </p>
           </div>
-          <ol className="border-y border-gold/40">
-            {highlights.map((item, index) => (
+          <ol className="reveal-stagger border-y border-gold/40">
+            {steps.map((item, index) => (
               <li
                 key={item.title}
                 className="grid grid-cols-[auto_1fr] gap-4 border-b border-gold/40 py-6 last:border-b-0"
@@ -175,7 +200,7 @@ export default function Home() {
 
       <section id="visita" className="border-t border-gold/30">
         <div className="mx-auto grid w-full max-w-6xl gap-12 px-5 py-16 sm:px-8 sm:py-24 lg:grid-cols-[0.9fr_1.1fr]">
-          <div>
+          <div className="reveal">
             <SectionLabel>03 — Visítanos</SectionLabel>
             <h2 className="mt-4 font-serif text-5xl font-medium tracking-tight sm:text-6xl">
               {site.address.neighborhood}
@@ -194,7 +219,10 @@ export default function Home() {
               </ButtonLink>
             </div>
             <div className="mt-10">
-              <h3 className="text-xs font-medium uppercase tracking-[0.22em]">Horario</h3>
+              <div className="flex flex-col gap-3 sm:flex-row sm:items-baseline sm:justify-between">
+                <h3 className="text-xs font-medium uppercase tracking-[0.22em]">Horario</h3>
+                <StoreStatus tone="light" />
+              </div>
               <ul className="mt-4 border-t border-gold/40">
                 {site.hours.map((group) => (
                   <li
@@ -247,7 +275,7 @@ export default function Home() {
       </section>
 
       <section id="contacto" className="bg-ink text-cream">
-        <div className="mx-auto flex w-full max-w-6xl flex-col items-start justify-between gap-8 px-5 py-16 sm:px-8 sm:py-20 lg:flex-row lg:items-end">
+        <div className="reveal mx-auto flex w-full max-w-6xl flex-col items-start justify-between gap-8 px-5 py-16 sm:px-8 sm:py-20 lg:flex-row lg:items-end">
           <div className="max-w-xl">
             <p className="text-xs font-medium uppercase tracking-[0.28em] text-gold">
               WhatsApp
@@ -272,7 +300,7 @@ export default function Home() {
 function SectionLabel({ children }: { children: string }) {
   return (
     <p className="flex items-center gap-3 text-xs font-medium uppercase tracking-[0.28em]">
-      <span className="h-px w-8 bg-gold" aria-hidden="true" />
+      <span className="section-line h-px w-8 bg-gold" aria-hidden="true" />
       {children}
     </p>
   );

@@ -16,7 +16,7 @@ export function ProductCard({
       href={whatsappUrl(productInquiry(item.name))}
       target="_blank"
       rel="noopener noreferrer"
-      className="group relative flex aspect-[3/4] overflow-hidden border border-gold/45 bg-ink text-cream transition hover:border-gold"
+      className="group relative flex aspect-[3/4] overflow-hidden border border-gold/45 bg-ink text-cream transition duration-300 hover:border-gold motion-safe:hover:-translate-y-1"
     >
       {item.image ? (
         <>

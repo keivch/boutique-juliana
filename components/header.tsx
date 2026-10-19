@@ -80,7 +80,7 @@ export function Header() {
         <nav
           id="menu-movil"
           aria-label="Secciones"
-          className="absolute inset-x-0 top-full border-b border-gold/30 bg-cream px-5 py-4 shadow-lg md:hidden"
+          className="menu-in absolute inset-x-0 top-full border-b border-gold/30 bg-cream px-5 py-4 shadow-lg md:hidden"
         >
           <ul>
             {navLinks.map((link) => (

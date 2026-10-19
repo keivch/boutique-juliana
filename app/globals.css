@@ -30,6 +30,117 @@ section[id] {
   }
 }
 
+@keyframes settle {
+  from {
+    transform: translateY(12px);
+  }
+  to {
+    transform: none;
+  }
+}
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes line-in {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
+@keyframes soft-pulse {
+  50% {
+    opacity: 0.4;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .enter {
+    animation: settle 0.8s cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+
+  .enter-late {
+    animation-delay: 0.12s;
+  }
+
+  .line-load {
+    transform-origin: left center;
+    animation: line-in 0.8s cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+
+  .menu-in {
+    animation: rise 0.28s cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+
+  .menu-in li {
+    animation: rise 0.4s cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+
+  .menu-in li:nth-child(2) {
+    animation-delay: 0.04s;
+  }
+
+  .menu-in li:nth-child(3) {
+    animation-delay: 0.08s;
+  }
+
+  .fab-in {
+    animation: rise 0.5s cubic-bezier(0.22, 1, 0.36, 1) 0.35s both;
+  }
+
+  .dot-live {
+    animation: soft-pulse 2.8s ease-in-out infinite;
+  }
+}
+
+.section-line {
+  transform-origin: left center;
+}
+
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .reveal,
+    .reveal-stagger > * {
+      animation: rise linear both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 25%;
+    }
+
+    .reveal-stagger > :nth-child(2) {
+      animation-range: entry 8% entry 33%;
+    }
+
+    .reveal-stagger > :nth-child(3) {
+      animation-range: entry 12% entry 37%;
+    }
+
+    .reveal-stagger > :nth-child(4) {
+      animation-range: entry 16% entry 41%;
+    }
+
+    .reveal-stagger > :nth-child(n + 5) {
+      animation-range: entry 8% entry 33%;
+    }
+
+    .section-line:not(.line-load) {
+      animation: line-in linear both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 20%;
+    }
+  }
+}
+
 body {
   background: var(--color-cream);
   color: var(--color-ink);
