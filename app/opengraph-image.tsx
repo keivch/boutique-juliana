@@ -20,7 +20,7 @@ export default async function OpenGraphImage() {
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
-          background: "#ffffff",
+          background: "#F9F6F0",
         }}
       >
         <img src={logoSrc} width={560} height={560} alt="" />

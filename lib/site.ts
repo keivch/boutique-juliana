@@ -69,8 +69,24 @@ export function mapsUrl() {
   return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(query)}`;
 }
 
-export function whatsappUrl() {
-  return `https://wa.me/${site.phone.replace(/\D/g, "")}`;
+export function mapsEmbedUrl() {
+  const query = `${formattedAddress()}, Colombia`;
+  return `https://maps.google.com/maps?q=${encodeURIComponent(query)}&z=16&output=embed`;
+}
+
+export const whatsappGreeting =
+  "Hola, vi la página de Boutique Juliana y quiero conocer las novedades.";
+
+export function whatsappUrl(message?: string) {
+  const url = new URL(`https://wa.me/${site.phone.replace(/\D/g, "")}`);
+  const text = message ?? whatsappGreeting;
+  if (text) url.searchParams.set("text", text);
+  return url.toString();
+}
+
+export function instagramHandle() {
+  const handle = new URL(site.instagram).pathname.split("/").filter(Boolean)[0];
+  return handle ? `@${handle}` : site.instagram;
 }
 
 export function pageMetadata({
