@@ -1,17 +1,22 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Cormorant_Garamond, Outfit } from "next/font/google";
+import { Footer } from "@/components/footer";
+import { Header } from "@/components/header";
+import { WhatsAppFab } from "@/components/whatsapp-fab";
 import { JsonLd, storeJsonLd } from "@/lib/json-ld";
 import { site } from "@/lib/site";
 import "./globals.css";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const outfit = Outfit({
+  variable: "--font-outfit",
   subsets: ["latin"],
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+const cormorant = Cormorant_Garamond({
+  variable: "--font-cormorant",
   subsets: ["latin"],
+  weight: ["500", "600", "700"],
+  style: ["normal", "italic"],
 });
 
 const googleVerification = process.env.GOOGLE_SITE_VERIFICATION;
@@ -65,11 +70,14 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
       lang={site.language}
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
+      className={`${outfit.variable} ${cormorant.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col">
+      <body className="flex min-h-full flex-col bg-cream font-sans text-ink">
         <JsonLd data={storeJsonLd()} />
+        <Header />
         {children}
+        <Footer />
+        <WhatsAppFab />
       </body>
     </html>
   );
