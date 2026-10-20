@@ -4,7 +4,7 @@ import { FeaturedLine } from "@/components/featured-line";
 import { ProductCard } from "@/components/product-card";
 import { StoreStatus } from "@/components/store-status";
 import { WhatsAppIcon } from "@/components/whatsapp-icon";
-import { catalog, featuredItems } from "@/lib/catalog";
+import { catalog, catalogGroups, categoryId, featuredItems } from "@/lib/catalog";
 import {
   formattedAddress,
   instagramHandle,
@@ -132,15 +132,15 @@ export default function Home() {
               </h2>
             </div>
             <p className="max-w-sm text-base leading-7 text-ink/75">
-              Casual, deportiva, jeans, shorts, bermudas, vestidos y conjuntos.
-              Escríbenos y te contamos qué hay en tienda, las tallas y el precio.
+              {catalog.length} prendas con foto, agrupadas y ordenadas por
+              nombre. Escríbenos y te contamos talla y precio.
             </p>
           </div>
           <div className="mt-12">
             <h3 className="font-serif text-3xl font-medium sm:text-4xl">Novedades</h3>
             <p className="mt-3 max-w-md text-sm leading-6 text-ink/75">
-              Vestidos, jeans, conjuntos y casual. Escríbenos y te decimos qué
-              hay hoy en tienda.
+              Las piezas cuya foto muestra mejor el corte y el color.
+              Escríbenos y te decimos qué hay hoy en tienda.
             </p>
             <ul className="reveal-stagger mt-6 grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4">
               {featuredItems().map((item, index) => (
@@ -150,16 +150,39 @@ export default function Home() {
               ))}
             </ul>
           </div>
-          <h3 className="reveal mt-16 font-serif text-3xl font-medium sm:text-4xl">
-            Todas las líneas
-          </h3>
-          <ul className="reveal-stagger mt-8 grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-3">
-            {catalog.map((item, index) => (
-              <li key={item.slug}>
-                <ProductCard item={item} index={index} />
-              </li>
-            ))}
-          </ul>
+          <div className="reveal mt-16 flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
+            <h3 className="font-serif text-3xl font-medium sm:text-4xl">
+              Todas las prendas
+            </h3>
+            <nav aria-label="Tipos de prenda" className="flex gap-2 overflow-x-auto pb-1">
+              {catalogGroups().map((group) => (
+                <a
+                  key={group.category}
+                  href={`#${categoryId(group.category)}`}
+                  className="shrink-0 border border-gold/50 px-3 py-2 text-[0.65rem] font-medium uppercase tracking-[0.16em] transition hover:border-gold"
+                >
+                  {group.category}
+                </a>
+              ))}
+            </nav>
+          </div>
+          {catalogGroups().map((group) => (
+            <div key={group.category} id={categoryId(group.category)} className="mt-12 scroll-mt-28">
+              <div className="flex items-baseline justify-between gap-4 border-b border-gold/40 pb-3">
+                <h4 className="font-serif text-3xl font-medium sm:text-4xl">{group.category}</h4>
+                <p className="text-xs tracking-[0.16em] text-ink/55">
+                  {String(group.items.length).padStart(2, "0")}
+                </p>
+              </div>
+              <ul className="reveal-stagger mt-5 grid grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-4 lg:grid-cols-4">
+                {group.items.map((item) => (
+                  <li key={item.slug}>
+                    <ProductCard item={item} />
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
           <p className="reveal mt-10 border border-gold/40 px-5 py-4 text-sm leading-6 text-ink/75">
             Cada prenda tiene su talla. Disponibilidad, precio y cambios se
             confirman por WhatsApp o directamente en la tienda.
