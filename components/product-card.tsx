@@ -10,7 +10,7 @@ export function ProductCard({ item }: { item: CatalogItem }) {
       rel="noopener noreferrer"
       className="group flex h-full flex-col border border-gold/40 bg-white transition duration-300 hover:border-gold motion-safe:hover:-translate-y-1"
     >
-      <div className="relative aspect-square overflow-hidden bg-[#f2f2f2]">
+      <div className="relative aspect-[4/5] overflow-hidden bg-[#f2f2f2]">
         <Image
           src={item.image}
           alt={item.name}
