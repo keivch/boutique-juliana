@@ -34,10 +34,6 @@ export const metadata: Metadata = {
   creator: site.name,
   publisher: site.name,
   category: "shopping",
-  icons: {
-    icon: [{ url: site.logo, type: "image/jpeg" }],
-    apple: [{ url: site.logo, type: "image/jpeg" }],
-  },
   openGraph: {
     type: "website",
     locale: site.locale,
